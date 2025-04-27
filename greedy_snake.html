@@ -10,77 +10,93 @@
 			height: 450px;
 			border: 1px solid red;
 		}
+
+		.instruction {
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+			color: #555;
+			margin-top: 30px;
+			margin-bottom: -30px;
+			font-family: 'Arial', sans-serif;
+		}
 	</style>
+	
 </head>
 <body>
+
+	<div class="instruction">
+		Use ↑, ↓, ←, → arrow keys to control the snake!
+	</div>
+
 	<div class="frame">
 		<canvas id="gamebox" width="450" height="450"></canvas>
 	</div>
 
+
 	<script type="text/javascript">
 
-		// 得到 canvas 容器，画笔
+		// Get canvas element and drawing context
 		var canvas = document.getElementById("gamebox");
 		var ctx = canvas.getContext("2d");
 
-		// 定义背景格子相关常量
-		const CELL_WIDTH = 15;	// 每个单元格宽度
-		const CELL_CNT = 30;	// 画布横向(纵向)格子数
-		const BOX_WIDTH = CELL_CNT * CELL_WIDTH;   // 画布总宽度(高度)
-		// 绘制画布中的背景格子
+		// Define constants for the background grid
+		const CELL_WIDTH = 15;	// Width of each cell
+		const CELL_CNT = 30;	// Number of cells horizontally and vertically
+		const BOX_WIDTH = CELL_CNT * CELL_WIDTH;   // Total canvas width and height
+		// Draw the background grid
 		drawBackground();
 
-		// 蛇的定义
-		var snake = [];		// 蛇数组
-		const SNAKE_ORG_LEN = 5; 	// 蛇初始化长度
-		const UP = 1;		// 方向，上
-		const DOWN = -1;
-		const LEFT = 2;
-		const RIGHT = -2;
-		// 蛇数组初始化
+		// Snake definition
+		var snake = [];		// Snake array
+		const SNAKE_ORG_LEN = 5; 	// Initial snake length
+		const UP = 1;		// Direction: up
+		const DOWN = -1;	// Direction: down
+		const LEFT = 2;		// Direction: left
+		const RIGHT = -2;	// Direction: right
+		// Initialize snake array
 		for(var i = 0; i < SNAKE_ORG_LEN; i++){
 			snake[i] = new SnakeCell(i, 0, RIGHT);
 		}
-		// 画蛇
+		// Draw the snake
 		drawSnake();
 
-		// 食物的定义
-		const FOOD_X = 14;		// 食物初始 x 坐标
-		const FOOD_Y = 14;		// 食物初始 y 坐标
+		// Food definition
+		const FOOD_X = 14;		// Initial x coordinate of food
+		const FOOD_Y = 14;		// Initial y coordinate of food
 		food = new FoodCell(FOOD_X, FOOD_Y);
-		// 显示食物
+		// Display the food
 		drawFood();
 
-		// 按 MOVE_SPEED 时间间隔不停移动
-		const MOVE_SPEED = 1000;  // ms
-		const SPEED_UP = 0.9;
+		// Move the snake automatically at a time interval
+		const MOVE_SPEED = 1000;  // milliseconds
+		const SPEED_UP = 0.9;     // Speed up factor after eating food
 		var speed = MOVE_SPEED;
 		var timer;
-		//moveByClock();
 		timer = setInterval("moveSnake()", speed);
-		// 根据方向键来移动蛇
+		// Move the snake based on key press
 		moveSnakeByKeys();
 
-		// 得分
+		// Score
 		var score = 0;
 
-		// 绘制背景
+		// Draw the background grid
 		function drawBackground(){
 			ctx.strokeStyle = 'pink';
 			ctx.beginPath();
 			for(var i = 1; i < CELL_CNT; i++){
-				// 横向
-				ctx.moveTo(0, i*CELL_WIDTH);
-				ctx.lineTo(BOX_WIDTH, i*CELL_WIDTH);
-				//纵向
-				ctx.moveTo(i*CELL_WIDTH, 0 );
-				ctx.lineTo(i*CELL_WIDTH, BOX_WIDTH);
+				// Horizontal lines
+				ctx.moveTo(0, i * CELL_WIDTH);
+				ctx.lineTo(BOX_WIDTH, i * CELL_WIDTH);
+				// Vertical lines
+				ctx.moveTo(i * CELL_WIDTH, 0);
+				ctx.lineTo(i * CELL_WIDTH, BOX_WIDTH);
 			}
 			ctx.closePath();
 			ctx.stroke();
 		}
 
-		// 蛇单元格对象，x, y, f: 坐标及方向
+		// Snake cell object: x, y coordinates and direction
 		function SnakeCell(x, y, f){
 			this.x = x;
 			this.y = y;
@@ -88,20 +104,20 @@
 			return this;
 		}
 
-		// 食物单元格对象
+		// Food cell object
 		function FoodCell(x, y){
 			this.x = x;
 			this.y = y;
 			return this;
 		}
 
-		// 画蛇
+		// Draw the snake
 		function drawSnake(){
 			for(var i = 0; i < snake.length; i++){
-				// 蛇后部画黑
+				// Snake body is black
 				ctx.fillStyle = "black";
 
-				//蛇数组中的最后元素即为蛇头, 蛇头填充红色
+				// The last element in the array is the head, make it red
 				if(i == snake.length - 1){
 					ctx.fillStyle = "red";
 				}
@@ -114,7 +130,7 @@
 			}
 		}
 
-		// 绘制食物
+		// Draw the food
 		function drawFood(){
 			ctx.fillStyle = "yellow";
 			ctx.beginPath();
@@ -124,11 +140,11 @@
 			ctx.stroke();
 		}
 
-		// 蛇根据方向来行动
+		// Move the snake based on its direction
 		function moveSnake(){
 			var head = getSnakeHead();
 
-			// 计算蛇头
+			// Calculate new head position
 			var newHead = new SnakeCell(head.x, head.y, head.f);
 			switch(newHead.f){
 				case UP: newHead.y--; break;
@@ -138,26 +154,25 @@
 				default: return;
 			}
 
-			// 旧蛇除去尾部，赋给新蛇身
+			// Remove the tail and move the body forward
 			for(var i = 1; i < snake.length; i++){
 				snake[i-1] = snake[i];
 			}
-			snake[snake.length - 1 ] = newHead;
+			snake[snake.length - 1] = newHead;
 			eatFood();
 			checkDeath();
 			redraw();
 		}
 
-		// 得到蛇头
+		// Get the snake head
 		function getSnakeHead(){
 			return snake[snake.length - 1];
 		}
 
-		// 上下左右方向键来控制蛇移动
+		// Control the snake movement with arrow keys
 		function moveSnakeByKeys(){
 			document.onkeydown = function(event){
 				var code = event.keyCode;
-				//alert(code);	// 37-40, 上下左右
 				var direction;
 				switch (code){
 					case 37: direction = LEFT; break;
@@ -166,7 +181,7 @@
 					case 40: direction = DOWN; break;
 					default: return;
 				}
-				// 蛇不能朝当前的反方向移动
+				// The snake cannot move directly opposite to its current direction
 				if(direction + getSnakeHead().f == 0){
 					return;
 				} else {
@@ -176,7 +191,7 @@
 			}
 		}
 
-		// 重新绘制
+		// Redraw the game
 		function redraw(){
 			ctx.clearRect(0, 0, BOX_WIDTH, BOX_WIDTH);
 			drawBackground();
@@ -184,41 +199,35 @@
 			drawFood();
 		}
 
-//		// 蛇按时间移动
-//		function moveByClock(){
-//			moveSnake();
-//			//timer = setTimeout("moveByClock()", speed);
-//		}
-
-		// 吃到自己或撞墙
+		// Check if the snake hits the wall or itself
 		function checkDeath(){
 			var head = getSnakeHead();
-			//撞墙
+			// Hit the wall
 			if(head.x < 0 || head.x > CELL_CNT - 1 || head.y < 0 || head.y > CELL_CNT - 1){
 				clearInterval(timer);
-				var msg = "不幸撞墙了, Game Over!\n得分： " + score;
+				var msg = "Unfortunately, you hit the wall. Game Over!\nScore: " + score;
 				alert(msg);
 				window.location.reload();
 			}
-			// 咬到自己
+			// Biting itself
 			for(var i = 0 ; i < snake.length - 1; i++){
 				if(snake[i].x == head.x && snake[i].y == head.y){
 					clearInterval(timer);
-					msg ="咬到自己了, Game Over!\n得分： " + score;
+					msg = "You bit yourself. Game Over!\nScore: " + score;
 					alert(msg);
 					window.location.reload();
 				}
 			}
 		}
 
-		// 吃食物
+		// Check if the snake eats the food
 		function eatFood(){
 			var head = getSnakeHead();
 			if(head.x == food.x && head.y == food.y){
 				score++;
-				snakeGrow();      // 蛇身在末尾加一截
-				newFood();		  // 产生新的食物
-				speed *= SPEED_UP;     // 加快速度
+				snakeGrow();      // Grow the snake
+				newFood();		  // Generate new food
+				speed *= SPEED_UP;     // Speed up
 				clearInterval(timer);
 				timer = setInterval("moveSnake()", speed);
 			}
@@ -229,14 +238,14 @@
 			}
 
 			function snakeGrow(){
-				// 蛇身往后生长而非往前
+				// Grow the snake by adding a new segment at the tail
 				for(var i = snake.length; i > 0; i--){
 					snake[i] = snake[i - 1];
 				}
 				var newTail = new SnakeCell(snake[0].x, snake[0].y, snake[0].f);
 				var head = getSnakeHead();
 				switch(head.f){
-					case UP: newTail.y++; break;  // 尾部增长方向与头方向相反
+					case UP: newTail.y++; break;  // Grow in the opposite direction of the head
 					case DOWN: newTail.y--; break;
 					case LEFT: newTail.x++; break;
 					case RIGHT: newTail.x--; break;
@@ -249,25 +258,3 @@
 	</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

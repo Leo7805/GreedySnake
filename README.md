@@ -1,7 +1,7 @@
-# greedy_snake
-- A extremely simple js &amp; html5 canvas based snake game. (贪吃蛇游戏)
+# Greedy Snake
+- A extremely simple js &amp; html5 canvas based snake game. 
 - Author: Leo (geneleoc@gmail.com)
-- [Demo](https://notus629.github.io/greedy_snake/)
+- [Demo](https://leo7805.github.io/greedy_snake)
 
 
 # Basic Steps
