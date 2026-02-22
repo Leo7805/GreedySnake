@@ -1,30 +1,74 @@
-# Greedy Snake
-- A extremely simple js &amp; html5 canvas based snake game. 
-- Author: Leo (geneleoc@gmail.com)
-- [Demo](https://leo7805.github.io/greedy_snake)
+## 🐍 Greedy Snake
+
+A lightweight browser-based Snake game built with **JavaScript** and the **HTML5 Canvas API**.
+
+🔗 **Live Demo**: https://leo7805.github.io/greedy_snake
+
+---
+
+### 📷 Screenshot
+
+<p align="center">
+  <img src="./assets/snake-demo.png" width="400"/>
+</p>
 
 
-# Basic Steps
+---
 
-1. **Draw the visible grid, initial positions of the snake and food**  
-   - A grid with 30 horizontal and 30 vertical cells, each cell 15px in size (canvas total: 450x450px).  
-   - Draw an initial snake with 5 body segments in the first row.  
-   - Place the default food at the center of the grid.  
-   - The top-left vertex coordinates of each cell represent its position.  
-   - The snake consists of two parts: the **head** (with direction) and the **body**.  
+### 📌 Overview
 
-2. **Make the snake move**  
-   - Move the snake head based on keyboard arrow key inputs (using event listeners).  
-   - Update the body to follow the head using this algorithm:  
-     - Generate a new head (based on the old head’s direction).  
-     - Generate a new body (discard the last segment/tail of the current snake array).  
-     - Append the new head to the body.  
+This project is a simple implementation of the classic Snake game, developed to practise fundamental front-end programming concepts including:
 
-3. **Implement food consumption**  
-   - **Collision detection**:  
-     - Increase the snake’s length by adding a new tail segment.  
-     - Remove the eaten food and generate a new random food item.  
+- Canvas-based rendering  
+- Event-driven input handling  
+- Real-time game loop logic  
+- Collision detection  
+- Basic state management  
 
-4. **Automate movement** using `setInterval`.  
+The game runs entirely in the browser with no external libraries or frameworks.
 
-5. **Score calculation**.
+---
+
+### 🛠️ Tech Stack
+
+- JavaScript (ES6)
+- HTML5 Canvas API
+
+---
+
+### 🎮 Core Features
+
+- 30 × 30 dynamic grid rendered using HTML5 Canvas  
+- Keyboard-controlled snake movement (arrow keys)  
+- Real-time automated movement via game loop (`setInterval`)  
+- Food spawning at random valid positions  
+- Collision detection (snake body & food)  
+- Progressive snake growth upon food consumption  
+- Score tracking system  
+
+---
+
+### ⚙️ Game Mechanics
+
+- The game board consists of **30 × 30 cells**, each measuring **15px × 15px**  
+  (Canvas size: **450px × 450px**)
+
+- The snake is represented as an array of grid coordinates and consists of:
+  - A directional head
+  - A dynamically updated body
+
+- Movement algorithm:
+  1. Generate a new head based on the current direction  
+  2. Remove the last segment (tail)  
+  3. Append the new head to the snake body  
+
+- When the snake consumes food:
+  - A new segment is added to its body  
+  - The score is incremented  
+  - A new food item is randomly generated  
+
+---
+
+### 🚀 How to Run Locally
+
+Simply open the `index.html` file in your browser.
