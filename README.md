@@ -9,7 +9,7 @@ A lightweight browser-based Snake game built with **JavaScript** and the **HTML5
 ### 📷 Screenshot
 
 <p align="center">
-  <img src="./assets/snake-demo.png" width="400"/>
+  <img src="./assets/snake_demo.png" width="400"/>
 </p>
 
 
